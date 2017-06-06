@@ -1,0 +1,21 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+#main{
+    width: 100vw;
+    height: 100vh;
+    background: palevioletred;
+}
+#jane-left{
+    width: 30%;
+    height: 100%;
+    background: peru;
+    float: left;
+}
+#jane-right{
+    width: 70%;
+    height: 100%;
+    background: black;
+    float: left;
+}
