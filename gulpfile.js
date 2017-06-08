@@ -14,60 +14,52 @@ var imagemin=require('imagemin');
 var revCollector=require('gulp-rev-collector');
 var minifyHTML=require('gulp-minify-html');
 var browserSync=require('browser-sync').create();
-
+var sequence=require("run-sequence");
+var cwd="janeshop";
 //实例化一个服务器对象
 gulp.task("serve",function(){
     browserSync.init({
-        server:{baseDir: "./"}
+        server:{baseDir: "./dist"}
     })
 });
 //文件夹清空任务
 gulp.task("clean",function(){
-    gulp.src("dist/*",{read:false})
+    gulp.src(["dist/*","rev/"],{read:false})
         .pipe(clean())
 });
 //css编译，语法检查，css3自动补全浏览器前缀，压缩,重命名，计算md5值，替换css文件应用路径
-gulp.task("css",function(){
-     return gulp.src('src/index.css')
-        .pipe(rename(
-             {
-                 dirname:'css/',
-                 prefix:'hello-',
-                 basename:'cozia',
-                 suffix:'-word',
-                 extname:'.css'
-             }
-         ))
-         .pipe(rev())
-        .pipe(gulp.dest('./'))
-});
-//javascript语法检查，压缩，重命名，计算md5值，替换js文件路径
-gulp.task("js",function(){
-    return gulp.src('src/index.css')
-        .pipe(clean('dist/*'))
+gulp.task('css', function () {
+    return gulp.src('src/css/*.css')
         .pipe(autoprefixer())
         .pipe(mincss())
-        .pipe(rename('minhello.css'))
-        .pipe(gulp.dest('dist'))
-});
-//图片合成雪碧图，压缩，重命名，计算md5值，替换图片文件路径
-gulp.task("sprite",function(){
-    return gulp.src('./src/img/**/*.{jpeg,jpg,gif,png,svg}')
-        .pipe(spritesmith())
-        .pipe(imagemin())
-        .pipe(rename())
-        .pipe(rev())
-        .pipe(revCollector())
-        .pipe(gulp.dest("./dist"))
-});
-
-
-gulp.task('main', function () {
-    return gulp.src('src/css/*.css')
+//        .pipe(rename(
+//            {
+//                prefix:cwd+'.',
+//                suffix:'.min',
+//                extname:'.css'
+//            }
+//        ))
         .pipe(rev())
         .pipe(gulp.dest('dist/css'))
         .pipe( rev.manifest() )
         .pipe( gulp.dest( 'rev/css' ) );
+});
+//javascript语法检查，压缩，重命名，计算md5值，替换js文件路径
+gulp.task("js",function(){
+    return gulp.src('src/js/*.js')
+//        .pipe(jshint())
+        .pipe(uglify())
+//        .pipe(rename(
+//            {
+//                prefix:cwd+'.',
+//                suffix:'.min',
+//                extname:'.js'
+//            }
+//        ))
+        .pipe(rev())
+        .pipe(gulp.dest('dist/js'))
+        .pipe( rev.manifest() )
+        .pipe( gulp.dest( 'rev/js' ) );
 });
 
 gulp.task('rev', function () {
@@ -75,8 +67,8 @@ gulp.task('rev', function () {
         .pipe( revCollector({
             replaceReved: true,
             dirReplacements: {
-                'css': '/dist/css',
-                '/js/': '/dist/js/'
+                'src/css/': 'css/',
+                'src/js/': 'js/'
             }
         }) )
         .pipe( minifyHTML({
@@ -85,25 +77,27 @@ gulp.task('rev', function () {
         }) )
         .pipe( gulp.dest('dist') );
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//图片合成雪碧图，压缩，重命名，计算md5值，替换图片文件路径
+gulp.task("sprite",function(){
+    var spriteData= gulp.src('./src/img/*.png')
+        .pipe(spritesmith(
+            {
+                imageName:'sprites.png',
+                cssName:'sprites.css'
+            }
+        ));
+        return spriteData.pipe(gulp.dest("./dist/sprites/"));
+});
+//gulp.task("sprite",function(){
+//    return gulp.src('./src/img/**/*.{jpeg,jpg,gif,png,svg}')
+//        .pipe(spritesmith())
+//        .pipe(imagemin())
+//        .pipe(rename())
+//        .pipe(rev())
+//        .pipe(revCollector())
+//        .pipe(gulp.dest("./dist"))
+//});
 //默认任务
-gulp.task("default",["clean","md5"]);
+gulp.task("default",function(){
+    sequence("clean","css","rev","serve");
+});

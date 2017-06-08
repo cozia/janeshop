@@ -20,7 +20,8 @@
     "browser-sync": "^2.18.12",
     "gulp-concat": "^2.6.1",
     "gulp-gzip": "^1.4.0",
-    "gulp-watch": "^4.3.11"
+    "gulp-watch": "^4.3.11",
+    "run-sequence": "^1.2.2"
   },
   "devDependencies": {
     "gulp": "^3.9.1",
@@ -36,6 +37,7 @@
     "gulp-rev-collector": "^1.2.2",
     "gulp-rev-css-url": "^0.1.0",
     "gulp-sass": "^3.1.0",
+    "gulp-sequence": "^0.4.6",
     "gulp-spritesmith": "0.0.2",
     "gulp-uglify": "^3.0.0",
     "imagemin": "^5.3.1"
