@@ -68,7 +68,8 @@ gulp.task('rev', function () {
             replaceReved: true,
             dirReplacements: {
                 'src/css/': 'css/',
-                'src/js/': 'js/'
+                'src/js/': 'js/',
+                'src/img/': 'img/'
             }
         }) )
         .pipe( minifyHTML({
@@ -88,6 +89,15 @@ gulp.task("sprite",function(){
         ));
         return spriteData.pipe(gulp.dest("./dist/sprites/"));
 });
+//图片处理
+gulp.task("img",function(){
+    gulp.src("./src/img/**/*.{jpg,jpeg,png,gif}")
+//        .pipe(imagemin())
+        .pipe(rev())
+        .pipe(gulp.dest("dist/img/"))
+        .pipe(rev.manifest())
+        .pipe(gulp.dest("rev/img/"))
+});
 //gulp.task("sprite",function(){
 //    return gulp.src('./src/img/**/*.{jpeg,jpg,gif,png,svg}')
 //        .pipe(spritesmith())
@@ -99,5 +109,5 @@ gulp.task("sprite",function(){
 //});
 //默认任务
 gulp.task("default",function(){
-    sequence("clean","css","rev","serve");
+    sequence("clean","css","js","rev","serve");
 });
