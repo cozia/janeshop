@@ -180,15 +180,42 @@
 }
 
 
-
-
-
 #jane-middle-article{
 
 }
 #jane-article-top{
-
+    width: 880px;
+    height: 380px;
 }
+#jane-carousel{
+    width: 610px;
+    height: 380px;
+    float: left;
+}
+#jane-ads{
+    float: left;
+    height: 380px;
+    width: 260px;
+}
+#ad-pic img{
+    width: 258px;
+    height: 220px;
+}
+#ad-news{
+    height: 150px;
+    border: 1px solid lightgray;
+}
+#ad-news ul{
+    border-top: 1px solid lightgray;
+}
+#ad-news ul li{
+    list-style: none;
+    text-indent: 1em;
+    height: 25px;
+    line-height: 25px;
+}
+
+
 #jane-article-down{
 
 }
@@ -206,14 +233,6 @@
     border-bottom:1px #d1d4d5 solid;
     position: relative;
 }
-.tab-title{
-    display: inline-block;
-    width: 70px;
-    height: 35px;
-    line-height: 35px;
-    text-align: center;
-    background: #d1d4d5;
-}
 #tab-title-box{
     position: absolute;
     height: 35px;
@@ -221,14 +240,51 @@
     right: 0;
     top: 0;
 }
-
+.tab-title{
+    display: inline-block;
+    width: 70px;
+    height: 35px;
+    line-height: 35px;
+    text-align: center;
+    background: #d1d4d5;
+    cursor: pointer;
+}
+.tabs-hide{
+    display: none;
+}
+.panels{
+    display: none;
+}
 .tabs-hide:checked~.panels{
     display: block;
 }
-
+.panels div{
+    display: inline-block;
+    width: 200px;
+    margin: 5px 10px 0 10px;
+}
+.panels a{
+    text-decoration: none;
+}
+.panels span{
+    display: block;
+    height: 40px;
+    width: 200px;
+    background: #000000;
+    color: white;
+    font-size: 18px;
+    text-align: center;
+    line-height: 40px;
+}
 .panels img{
     width: 200px;
     height: 180px;
-    margin: 5px 10px 0 10px;
+}
+
+footer{
+    text-align: center;
+    color: lightgray;
+    height: 150px;
+    line-height: 150px;
 }
 

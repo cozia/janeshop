@@ -3,7 +3,7 @@ var rename=require('gulp-rename');
 var rev=require('gulp-rev');
 var reUrl=require('gulp-rev-css-url');
 var mincss=require('gulp-minify-css');
-//var sass=require('gulp-sass');
+var sass=require('gulp-sass');
 var uglify=require('gulp-uglify');
 var clean=require('gulp-clean');
 var autoprefixer=require('gulp-autoprefixer');
@@ -15,6 +15,7 @@ var revCollector=require('gulp-rev-collector');
 var minifyHTML=require('gulp-minify-html');
 var browserSync=require('browser-sync').create();
 var sequence=require("run-sequence");
+var gzip=require("gulp-gzip");
 var cwd="janeshop";
 //实例化一个服务器对象
 gulp.task("serve",function(){
@@ -108,6 +109,19 @@ gulp.task("img",function(){
 //        .pipe(gulp.dest("./dist"))
 //});
 //默认任务
+gulp.task("sass",function(){
+    return gulp.src("src/scss/*.scss")
+        .pipe(sass())
+        .pipe(gulp.dest("dist/css/"))
+});
+
+gulp.task("gzip",function(){
+    return gulp.src("index.html")
+        .pipe(gzip())
+        .pipe(gulp.dest("zip/"))
+});
+
+
 gulp.task("default",function(){
     sequence("clean","css","js","rev","serve");
 });
